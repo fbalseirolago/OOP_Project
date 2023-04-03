@@ -6,8 +6,6 @@
 
 #include "process.h"
 #include "processor.h"
-// FBL: Add linux_parser to access namespace methods
-#include "linux_parser.h"
 
 class System {
  public:

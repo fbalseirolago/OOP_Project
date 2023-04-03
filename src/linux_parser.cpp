@@ -98,7 +98,7 @@ float LinuxParser::MemoryUtilization() {
   if (abs(memTotal - (-1.0)) < 0.1 || abs(memFree - (-1.0)) < 0.1)
     return -1.0;
   else
-    return (memTotal - memFree);
+    return (memTotal - memFree) / memTotal;
 }
 
 // TODO:DONE Read and return the system uptime
@@ -132,8 +132,30 @@ long LinuxParser::ActiveJiffies() { return 0; }
 // TODO: Read and return the number of idle jiffies for the system
 long LinuxParser::IdleJiffies() { return 0; }
 
-// TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
+// TODO:DONE Read and return CPU utilization
+vector<string> LinuxParser::CpuUtilization() {
+  std::ifstream inputFile(kProcDirectory + kStatFilename);
+  vector<string> fields;
+
+  if (inputFile.is_open()) {
+    string line;
+    string key;
+    string val;
+    // We only need to get the first line.
+    std::getline(inputFile, line);
+    // We create a string stream
+    std::istringstream lineStream(line);
+
+    lineStream >> key;
+    // We make sure that the key is the aggregate CPU -> may not be needed
+    if (key == "cpu") {
+      // iterate over all the values present in the CPU aggregate line
+      while (lineStream >> val) fields.push_back(val);
+    }
+  }
+
+  return fields;
+}
 
 // TODO:DONE Read and return the total number of processes
 int LinuxParser::TotalProcesses() {

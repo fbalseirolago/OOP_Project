@@ -9,6 +9,8 @@
 
 #include "process.h"
 #include "processor.h"
+// FBL: Add linux_parser to access namespace methods
+#include "linux_parser.h"
 
 using std::set;
 using std::size_t;
