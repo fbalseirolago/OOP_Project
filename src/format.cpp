@@ -1,15 +1,10 @@
 #include "format.h"
 
-#include <string>
-// FBL: Added header file to use setw and setfill calls
 #include <iomanip>
+#include <string>
 
 using std::string;
 
-// TODO:DONE Complete this helper function
-// INPUT: Long int measuring seconds
-// OUTPUT: HH:MM:SS
-// REMOVE: [[maybe_unused]] once you define the function
 string Format::ElapsedTime(long seconds) {
   // Get the integer part of the division
   int h = seconds / 3600;

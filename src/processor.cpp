@@ -8,7 +8,6 @@
 using std::string;
 using std::vector;
 
-// TODO:DONE Return the aggregate CPU utilization
 float Processor::Utilization() {
   vector<string> cpuTimesStr = LinuxParser::CpuUtilization();
   vector<float> cpuTimes;
@@ -20,11 +19,13 @@ float Processor::Utilization() {
                  std::back_inserter(cpuTimes),
                  [](string time) { return std::stof(time); });
 
-  // Formulat taken from:
+  // Formula taken from:
   // https://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux
-  float idle = cpuTimes[IDLE] + cpuTimes[IOWAIT];
-  float nonIdle = cpuTimes[USER] + cpuTimes[NICE] + cpuTimes[SYSTEM] +
-                  cpuTimes[IRQ] + cpuTimes[SOFTIRQ] + cpuTimes[STEAL];
+  float idle = cpuTimes[LinuxParser::kIdle_] + cpuTimes[LinuxParser::kIOwait_];
+  float nonIdle =
+      cpuTimes[LinuxParser::kUser_] + cpuTimes[LinuxParser::kNice_] +
+      cpuTimes[LinuxParser::kSystem_] + cpuTimes[LinuxParser::kIRQ_] +
+      cpuTimes[LinuxParser::kSoftIRQ_] + cpuTimes[LinuxParser::kSteal_];
   float total = idle + nonIdle;
 
   return (total - idle) / total;
