@@ -17,7 +17,7 @@ using std::vector;
 Process::Process(int pid) : pid_(pid) {
   command_ = LinuxParser::Command(pid);
   user_ = LinuxParser::User(pid);
-  upTime_ = LinuxParser::UpTime(pid);
+  upTime_ = LinuxParser::UpTime() - LinuxParser::UpTime(pid);
 }
 
 int Process::Pid() { return pid_; }
